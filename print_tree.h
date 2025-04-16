@@ -14,3 +14,17 @@ void printTree(TreeNode* node) {
         std::cout << "]";
     }
 }
+
+void printTree_Weights(TreeNode* node) {
+    if (!node) return;
+    std::cout << node->name << " : " << node->weight;
+    if (!node->children.empty()) {
+        std::cout << " [";
+        for (size_t i = 0; i < node->children.size(); i++) {
+            printTree_Weights(node->children[i]);
+            if (i < node->children.size() - 1)
+                std::cout << ", ";
+        }
+        std::cout << "]";
+    }
+}

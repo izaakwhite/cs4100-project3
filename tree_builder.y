@@ -74,7 +74,7 @@ buildnode_params: NAME '=' string_expression ';' WEIGHT '=' expression ';' {
 
 for_statement: FOR VAR IN '[' expression ':' expression ']' block {
     $$ = new ForStatement($2, $5, $7, $9);
-    free($2); // Clean up the strdup memory
+    free($2); 
 }
 ;
 
@@ -88,7 +88,7 @@ expression: INT {
 }
 | VAR {
     $$ = new Variable($1);
-    free($1); // Clean up the strdup memory
+    free($1); 
 }
 | expression '+' expression {
     $$ = new AddExpr($1, $3);
@@ -100,11 +100,11 @@ expression: INT {
 
 string_expression: STRING {
     $$ = new StringLiteral($1);
-    free($1); // Clean up the strdup memory
+    free($1); 
 }
 | VAR {
     $$ = new Variable($1);
-    free($1); // Clean up the strdup memory
+    free($1);
 }
 | string_expression '+' expression {
     $$ = new AddExpr($1, $3);
@@ -119,27 +119,19 @@ void yyerror(const char *s) {
 }
 
 int main() {
-    // Initialize line number
     line_number = 1;
-    
-    // Parse input
+
     if (yyparse() == 0) {
-        cout << "Parsing completed successfully" << endl;
-        
-        // Execute the program if we have a valid parse tree
         if (program_root) {
             program_root->execute();
-            
-            // Get the root node and work with it if needed
+  
             TreeNode* root = program_root->getRoot();
             if (root) {
-                cout << "Root node created: " << root->name << endl;
-                cout << "Root has " << root->children.size() << " children" << endl;
                 cout << "=== Tree Structure ===\n";
                 printTree(root);
+                cout << endl;
+                // printTree_Weights(root);
             }
-            
-            // Clean up
             delete program_root;
         }
     }

@@ -7,11 +7,9 @@
 #include <iostream>
 #include "tree_node.h"
 
-// Forward declarations
 class Expression;
 class Statement;
 
-// Context for variable storage and tree node references
 class Context {
 public:
     std::map<std::string, int> variables;
@@ -30,7 +28,6 @@ public:
     }
 };
 
-// Base class for all expressions
 class Expression {
 public:
     virtual ~Expression() {}
@@ -42,7 +39,6 @@ public:
     }
 };
 
-// Integer literal
 class IntLiteral : public Expression {
 private:
     int value;
@@ -54,13 +50,12 @@ public:
     }
 };
 
-// String literal
 class StringLiteral : public Expression {
 private:
     std::string value;
 public:
     StringLiteral(const std::string& val) : value(val) {
-        // Remove quotes from string literals
+        // Remove quotes 
         if (value.size() >= 2 && value[0] == '"' && value[value.size()-1] == '"') {
             value = value.substr(1, value.size()-2);
         }
@@ -79,7 +74,6 @@ public:
     }
 };
 
-// Variable reference
 class Variable : public Expression {
 private:
     std::string name;
@@ -96,7 +90,6 @@ public:
     }
 };
 
-// Binary operations for expressions
 class BinaryExpr : public Expression {
 protected:
     Expression* left;
@@ -109,7 +102,6 @@ public:
     }
 };
 
-// Addition operation
 class AddExpr : public BinaryExpr {
 public:
     AddExpr(Expression* l, Expression* r) : BinaryExpr(l, r) {}
@@ -123,14 +115,13 @@ public:
     }
 };
 
-// Base class for all statements
+
 class Statement {
 public:
     virtual ~Statement() {}
     virtual void execute(Context& context) = 0;
 };
 
-// Compound statement (list of statements)
 class CompoundStatement : public Statement {
 private:
     std::vector<Statement*> statements;
@@ -153,7 +144,6 @@ public:
     }
 };
 
-// BuildNode statement
 class BuildNodeStatement : public Statement {
 private:
     Expression* nameExpr;
@@ -176,7 +166,6 @@ public:
         int nodeWeight = weightExpr->evaluateInt(context);
         
         TreeNode* node = new TreeNode(nodeName, nodeWeight);
-        // We could store the weight in the node if needed
         
         context.addNode(nodeName, node);
         
@@ -194,7 +183,6 @@ public:
     }
 };
 
-// For loop statement
 class ForStatement : public Statement {
 private:
     std::string varName;
@@ -223,11 +211,10 @@ public:
     }
 };
 
-// Program - top level container
 class Program {
 private:
     CompoundStatement* statements;
-    Context context;              // one shared context
+    Context context;
     
 public:
     Program(CompoundStatement* stmts) : statements(stmts) {}
@@ -245,4 +232,4 @@ public:
     }
 };
 
-#endif // PARSE_TREE_H
+#endif
