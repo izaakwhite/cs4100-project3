@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include "tree_builder.tab.h"  
+#include "tree_builder.tab.h"  
 
 extern int line_number;
 %}
@@ -23,15 +23,15 @@ extern int line_number;
 
 [A-Za-z][A-Za-z0-9_]*   { yylval.str_val = strdup(yytext); return VAR; }
 
-"="                     { return ASSIGN; }
-"+"                     { return PLUS; }
+"="                     { return '='; }
+"+"                     { return '+'; }
 
-"{"                     { return LBRACE; }
-"}"                     { return RBRACE; }
-"["                     { return LBRACKET; }
-"]"                     { return RBRACKET; }
-";"                     { return SEMICOLON; }
-":"                     { return COLON; }
+"{"                     { return '{'; }
+"}"                     { return '}'; }
+"["                     { return '['; }
+"]"                     { return ']'; }
+";"                     { return ';'; }
+":"                     { return ':'; }
 
 \n                      { line_number++; }
 [ \t\r]+                { /* ignore whitespace */ }

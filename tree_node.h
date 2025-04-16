@@ -7,9 +7,10 @@
 class TreeNode {
 public:
     std::string name;
+    int weight;
     std::vector<TreeNode*> children;
 
-    TreeNode(const std::string &name) : name(name) {}
+    TreeNode(const std::string &name, int weight = 0) : name(name), weight(weight) {}
     void addChild(TreeNode* child) {
         children.push_back(child);
     }
